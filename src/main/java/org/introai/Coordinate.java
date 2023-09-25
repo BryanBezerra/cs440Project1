@@ -28,6 +28,10 @@ public class Coordinate {
         return new Coordinate (x - 1, y);
     }
 
+    public boolean isInBounds(int sizeX, int sizeY) {
+        return this.x >= 0 && this.x < sizeX && this.y >= 0 && this.y < sizeY;
+    }
+
     public int[] toArray() {
         return new int[]{this.x, this.y};
     }
