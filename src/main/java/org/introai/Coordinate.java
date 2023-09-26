@@ -57,7 +57,7 @@ public class Coordinate {
     public static void main(String[] args) {
         Coordinate a = new Coordinate(2, 4);
         Coordinate b = new Coordinate(2,3);
-        Coordinate c = new Coordinate(2, 4);
+        Coordinate c = new Coordinate(2, 4);;
         HashSet<Coordinate> test = new HashSet<>();
         System.out.println(a.equals(c));
         test.add(a);
