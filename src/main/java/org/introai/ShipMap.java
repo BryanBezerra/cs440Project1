@@ -169,12 +169,24 @@ public class ShipMap {
         cullDeadEnds();
     }
 
-//    private boolean isCatchingFire(int neighborsOnFire) {
-//        //TODO Write logic for setting cells on fire
-//        switch (neighborsOnFire)
-//
-//        return true;
-//    }
+    private boolean isCatchingFire(int neighborsOnFire) {
+        double roll = ThreadLocalRandom.current().nextDouble();
+        switch (neighborsOnFire) {
+            case 1 -> {
+                if (roll <= this.fireChance1) return true;
+            }
+            case 2 -> {
+                if (roll <= this.fireChance2) return true;
+            }
+            case 3 -> {
+                if (roll <= this.fireChance3) return true;
+            }
+            case 4 -> {
+                if (roll <= this.fireChance4) return true;
+            }
+        }
+        return false;
+    }
 
     @Override
     public String toString() {
