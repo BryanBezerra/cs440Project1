@@ -8,8 +8,8 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class ShipMap {
     private final int size;
-    private Coordinate botLocation;
     private Coordinate goalLocation;
+    private Coordinate botLocation;
     private final HashSet<Coordinate> openCells;
     private final HashSet<Coordinate> fireCells;
 
@@ -17,18 +17,12 @@ public class ShipMap {
         this.size = Math.abs(size);
         this.openCells = new ShipCreator(size).generateShip();
         this.fireCells = new HashSet<>();
-        placeBotGoalAndFire();
-    }
-
-    /**
-     * Initial placement of bot, goal, and fire.
-     */
-    private void placeBotGoalAndFire() {
         int sizeOpenCells = this.openCells.size();
         int goalI;
         int botI;
         int fireI;
 
+        // Randomly place the bot, the goal, and set one cell on fire
         goalI = ThreadLocalRandom.current().nextInt(sizeOpenCells);
         do {
             botI = ThreadLocalRandom.current().nextInt(sizeOpenCells);
@@ -36,8 +30,6 @@ public class ShipMap {
         do {
             fireI = ThreadLocalRandom.current().nextInt(sizeOpenCells);
         } while (fireI == botI || fireI == goalI);
-
-//        System.out.println(goalI + " " + botI + " " + fireI);
 
         int i = 0;
         Coordinate cellToBurn = null;
@@ -63,33 +55,84 @@ public class ShipMap {
     }
 
     /**
-     * Finds a given cell's open neighbors. If there are less than 4 open cells,
-     * the array contains null values at the end to pad the length.
+     * Finds a given cell's open neighbors.
      *
      * @param cell the cell to be searched from
-     * @return an array of length 4. The first n indices contain the cell's n open neighbors.
+     * @return an array of Coordinates containing the cell's open neighbors
      */
     public Coordinate[] openNeighbors(Coordinate cell) {
         final int POSSIBLE_NEIGHBORS = 4;
-        Coordinate[] result = new Coordinate[POSSIBLE_NEIGHBORS];
+        Coordinate[] openNeighbors = new Coordinate[POSSIBLE_NEIGHBORS];
         Coordinate[] neighbors = {cell.getAbove(), cell.getBelow(), cell.getLeft(), cell.getRight()};
         int currIndex = 0;
-        for (Coordinate curr : neighbors) {
-            if (openCells.contains(curr)) {
-                result[currIndex] = curr;
+        for (Coordinate neighbor : neighbors) {
+            if (openCells.contains(neighbor)) {
+                openNeighbors[currIndex] = neighbor;
                 currIndex++;
             }
+        }
+
+        Coordinate[] result = new Coordinate[currIndex];
+        currIndex = 0;
+        for (Coordinate neighbor : openNeighbors) {
+            if (neighbor == null) break;
+            result[currIndex] = neighbor;
+            currIndex++;
         }
         return result;
     }
 
-//    public HashSet<Coordinate> getOpenCells() {
-//        return (HashSet<Coordinate>) openCells.clone();
-//    }
-//
-//    public HashSet<Coordinate> getFireCells() {
-//        return (HashSet<Coordinate>) fireCells.clone();
-//    }
+    /**
+     * Moves the bot up one cell.
+     *
+     * @throws RuntimeException if bot tries to move to an invalid cell.
+     */
+    public void moveBotUp() throws RuntimeException {
+        Coordinate above = botLocation.getAbove();
+        if (openCells.contains(above)) this.botLocation = above;
+        else throw new RuntimeException("Bot tried to move to an invalid cell");
+    }
+
+    /**
+     * Moves the bot down one cell.
+     *
+     * @throws RuntimeException if bot tries to move to an invalid cell.
+     */
+    public void moveBotDown() throws RuntimeException {
+        Coordinate below = botLocation.getBelow();
+        if (openCells.contains(below)) this.botLocation = below;
+        else throw new RuntimeException("Bot tried to move to an invalid cell");
+    }
+
+    /**
+     * Moves the bot left one cell.
+     *
+     * @throws RuntimeException if bot tries to move to an invalid cell.
+     */
+    public void moveBotLeft() throws RuntimeException {
+        Coordinate left = botLocation.getLeft();
+        if (openCells.contains(left)) this.botLocation = left;
+        else throw new RuntimeException("Bot tried to move to an invalid cell");
+    }
+
+    /**
+     * Moves the bot right one cell.
+     *
+     * @throws RuntimeException if bot tries to move to an invalid cell.
+     */
+    public void moveBotRight() throws RuntimeException {
+        Coordinate right = botLocation.getRight();
+        if (openCells.contains(right)) this.botLocation = right;
+        else throw new RuntimeException("Bot tried to move to an invalid cell");
+    }
+
+    public HashSet<Coordinate> getOpenCells() {
+        return (HashSet<Coordinate>) openCells.clone();
+    }
+
+    public HashSet<Coordinate> getFireCells() {
+        return (HashSet<Coordinate>) fireCells.clone();
+    }
 
     public Coordinate getGoalLocation() {
         return goalLocation.copy();
@@ -97,14 +140,6 @@ public class ShipMap {
 
     public Coordinate getBotLocation() {
         return botLocation.copy();
-    }
-
-    public void setGoalLocation(Coordinate newGoalLocation) {
-        this.goalLocation = newGoalLocation;
-    }
-
-    public void setBotLocation(Coordinate newBotLocation) {
-        this.botLocation = newBotLocation;
     }
 
     @Override
