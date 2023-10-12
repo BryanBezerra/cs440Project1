@@ -36,6 +36,10 @@ public class Coordinate {
         return new int[]{this.x, this.y};
     }
 
+    public Coordinate copy() {
+        return new Coordinate(this.x, this.y);
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(x, y);
