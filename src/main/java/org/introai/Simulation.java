@@ -1,5 +1,7 @@
 package org.introai;
 
+import org.introai.bots.Bot;
+
 import java.util.HashSet;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -42,11 +44,10 @@ public class Simulation {
      */
     private boolean willCatchFire(Coordinate cell) throws RuntimeException {
         int neighborsOnFire = 0;
-        HashSet<Coordinate> fireCells = shipMap.getFireCells();
         Coordinate[] neighbors = {cell.getAbove(), cell.getBelow(), cell.getLeft(), cell.getRight()};
 
         for (Coordinate neighbor : neighbors) {
-            if (fireCells.contains(neighbor)) neighborsOnFire++;
+            if (shipMap.isOnFire(neighbor)) neighborsOnFire++;
         }
         if (neighborsOnFire == 0) return false;
 
@@ -80,9 +81,16 @@ public class Simulation {
             Coordinate botLocation = shipMap.getBotLocation();
             if (botLocation == goal) goalAchieved = true;
             simulateFireSpread();
-            HashSet<Coordinate> fireCells = shipMap.getFireCells();
-            if (fireCells.contains(botLocation) || fireCells.contains(goal)) botCanMove = false;
+            if (shipMap.isOnFire(botLocation) || shipMap.isOnFire(goal)) botCanMove = false;
         }
         return goalAchieved;
+    }
+
+    public static void main(String[] args) {
+        Simulation test = new Simulation(15, 0.99);
+        for (int i = 0; i < 7; i++) {
+            test.simulateFireSpread();
+            System.out.println(test.shipMap);
+        }
     }
 }
