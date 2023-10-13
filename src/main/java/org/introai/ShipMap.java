@@ -130,6 +130,10 @@ public class ShipMap {
         return (HashSet<Coordinate>) openCells.clone();
     }
 
+    public HashSet<Coordinate> getFireCells() {
+        return (HashSet<Coordinate>) fireCells.clone();
+    }
+
     /**
      * Detects whether the given cell is on fire.
      *
