@@ -73,7 +73,6 @@ public class Search {
             Coordinate[] neighbors = shipMap.openNeighbors(curr);
             for (Coordinate neighbor : neighbors) {
                 if (fireAdjacent.contains(neighbor)) {
-                    System.out.println("Adjacent to fire. Skipping neighbor " + neighbor);
                     continue;
                 }
                 int tempDistance = distanceFromStart.get(curr) + 1;

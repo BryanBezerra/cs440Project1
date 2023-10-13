@@ -95,7 +95,7 @@ public class Simulation {
     }
 
     public static void main(String[] args) {
-        Simulation test = new Simulation(10, 0.7);
+        Simulation test = new Simulation(10, 0.45);
         System.out.println(test.shipMap);
         boolean result = test.run(new Bot3(test.getShipMap()));
         System.out.println(result);
