@@ -3,6 +3,7 @@ package org.introai;
 import org.introai.bots.Bot;
 import org.introai.bots.Bot1;
 import org.introai.bots.Bot2;
+import org.introai.bots.Bot3;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -94,9 +95,9 @@ public class Simulation {
     }
 
     public static void main(String[] args) {
-        Simulation test = new Simulation(5, 0.5);
+        Simulation test = new Simulation(10, 0.7);
         System.out.println(test.shipMap);
-        boolean result = test.run(new Bot2(test.getShipMap()));
+        boolean result = test.run(new Bot3(test.getShipMap()));
         System.out.println(result);
         System.out.println(test.shipMap);
     }

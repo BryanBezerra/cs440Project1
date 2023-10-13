@@ -7,11 +7,13 @@ import org.introai.bots.Bot3;
 
 public class Main {
     public static void main(String[] args) {
-        final int SHIP_SIZE = 70;
-        final int RUNS = 50;
+        final int SHIP_SIZE = 30;
+        final int RUNS = 500;
+        final double Q_INTERVAL = 0.2;
+        final double Q_START = 0.0;
         double q;
 
-        q = 0.1;
+        q = Q_START;
         System.out.println("Bot 1 @ size " + SHIP_SIZE);
         while (q <= 1.005) {
             int wins = 0;
@@ -23,10 +25,10 @@ public class Main {
                 if (result) wins += 1;
             }
             System.out.println("At q = " + q + ", wins = " + wins + "/" + RUNS);
-            q += 0.1;
+            q += Q_INTERVAL;
         }
 
-        q = 0.1;
+        q = Q_START;
         System.out.println("Bot 2 @ size " + SHIP_SIZE);
         while (q <= 1.005) {
             int wins = 0;
@@ -38,10 +40,10 @@ public class Main {
                 if (result) wins += 1;
             }
             System.out.println("At q = " + q + ", wins = " + wins + "/" + RUNS);
-            q += 0.1;
+            q += Q_INTERVAL;
         }
 
-        q = 0.1;
+        q = Q_START;
         System.out.println("Bot 3 @ size " + SHIP_SIZE);
         while (q <= 1.005) {
             int wins = 0;
@@ -53,7 +55,7 @@ public class Main {
                 if (result) wins += 1;
             }
             System.out.println("At q = " + q + ", wins = " + wins + "/" + RUNS);
-            q += 0.1;
+            q += Q_INTERVAL;
         }
     }
 }

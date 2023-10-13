@@ -73,6 +73,7 @@ public class Search {
             Coordinate[] neighbors = shipMap.openNeighbors(curr);
             for (Coordinate neighbor : neighbors) {
                 if (fireAdjacent.contains(neighbor)) {
+                    System.out.println("Adjacent to fire. Skipping neighbor " + neighbor);
                     continue;
                 }
                 int tempDistance = distanceFromStart.get(curr) + 1;
@@ -93,6 +94,7 @@ public class Search {
         HashSet<Coordinate> fireCells = shipMap.getFireCells();
         HashSet<Coordinate> openCells = shipMap.getOpenCells();
         HashSet<Coordinate> adjacentToFireCells = new HashSet<>();
+
         for (Coordinate cell : fireCells) {
             Coordinate[] neighbors = {cell.getAbove(), cell.getBelow(), cell.getLeft(), cell.getRight()};
             for (Coordinate neighbor : neighbors) {
