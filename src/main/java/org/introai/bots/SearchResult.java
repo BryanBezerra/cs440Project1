@@ -36,7 +36,15 @@ public class SearchResult {
         return path;
     }
 
-    public int getDistanceFromStart() {
+    public Coordinate getStartLocation() {
+        return start;
+    }
+
+    public Coordinate getEndLocation() {
+        return end;
+    }
+
+    public int getDistanceFromStartToEnd() {
         return distanceFromStart;
     }
 }
