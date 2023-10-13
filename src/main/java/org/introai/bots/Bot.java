@@ -1,7 +1,9 @@
-package org.introai;
+package org.introai.bots;
+
+import org.introai.ShipMap;
 
 public abstract class Bot {
-    private final ShipMap shipMap;
+    protected final ShipMap shipMap;
 
     public Bot(ShipMap shipMap) {
         this.shipMap = shipMap;
