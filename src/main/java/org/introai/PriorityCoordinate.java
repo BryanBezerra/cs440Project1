@@ -30,7 +30,7 @@ public class PriorityCoordinate implements Comparable<PriorityCoordinate> {
         if (obj == null) return false;
         if (obj.getClass() != this.getClass()) return false;
         final PriorityCoordinate other = (PriorityCoordinate) obj;
-        return this.coordinate == other.coordinate && this.priority == other.priority;
+        return this.coordinate.equals(other.coordinate) && this.priority == other.priority;
     }
 
     @Override

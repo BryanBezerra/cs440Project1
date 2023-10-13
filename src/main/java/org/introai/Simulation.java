@@ -1,7 +1,10 @@
 package org.introai;
 
 import org.introai.bots.Bot;
+import org.introai.bots.Bot1;
+import org.introai.bots.Bot2;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -71,7 +74,7 @@ public class Simulation {
      * @param bot the bot that will make decisions
      * @return true if the bot was successful, otherwise false
      */
-    public boolean run(Bot bot) {
+    public boolean run (Bot bot) {
         Coordinate goal = shipMap.getGoalLocation();
         boolean botCanMove = true;
         boolean goalAchieved = false;
@@ -79,18 +82,22 @@ public class Simulation {
         while (botCanMove && !goalAchieved) {
             botCanMove = bot.makeAMove();
             Coordinate botLocation = shipMap.getBotLocation();
-            if (botLocation == goal) goalAchieved = true;
+            if (botLocation.equals(goal)) goalAchieved = true;
             simulateFireSpread();
             if (shipMap.isOnFire(botLocation) || shipMap.isOnFire(goal)) botCanMove = false;
         }
         return goalAchieved;
     }
 
+    public ShipMap getShipMap() {
+        return shipMap;
+    }
+
     public static void main(String[] args) {
-        Simulation test = new Simulation(15, 0.99);
-        for (int i = 0; i < 7; i++) {
-            test.simulateFireSpread();
-            System.out.println(test.shipMap);
-        }
+        Simulation test = new Simulation(5, 0.5);
+        System.out.println(test.shipMap);
+        boolean result = test.run(new Bot2(test.getShipMap()));
+        System.out.println(result);
+        System.out.println(test.shipMap);
     }
 }

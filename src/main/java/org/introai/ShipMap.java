@@ -89,7 +89,7 @@ public class ShipMap {
      */
     public void moveBotUp() throws RuntimeException {
         Coordinate above = botLocation.getAbove();
-        if (openCells.contains(above)) this.botLocation = above;
+        if (openCells.contains(above) || fireCells.contains(above)) this.botLocation = above;
         else throw new RuntimeException("Bot tried to move to an invalid cell");
     }
 
@@ -100,7 +100,7 @@ public class ShipMap {
      */
     public void moveBotDown() throws RuntimeException {
         Coordinate below = botLocation.getBelow();
-        if (openCells.contains(below)) this.botLocation = below;
+        if (openCells.contains(below) || fireCells.contains(below)) this.botLocation = below;
         else throw new RuntimeException("Bot tried to move to an invalid cell");
     }
 
@@ -111,7 +111,7 @@ public class ShipMap {
      */
     public void moveBotLeft() throws RuntimeException {
         Coordinate left = botLocation.getLeft();
-        if (openCells.contains(left)) this.botLocation = left;
+        if (openCells.contains(left) || fireCells.contains(left)) this.botLocation = left;
         else throw new RuntimeException("Bot tried to move to an invalid cell");
     }
 
@@ -122,7 +122,7 @@ public class ShipMap {
      */
     public void moveBotRight() throws RuntimeException {
         Coordinate right = botLocation.getRight();
-        if (openCells.contains(right)) this.botLocation = right;
+        if (openCells.contains(right) || fireCells.contains(right)) this.botLocation = right;
         else throw new RuntimeException("Bot tried to move to an invalid cell");
     }
 

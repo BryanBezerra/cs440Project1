@@ -6,26 +6,18 @@ import org.introai.ShipMap;
 
 import java.util.ArrayList;
 
-public class Bot1 extends Bot {
-    private boolean firstRun;
+public class Bot2 extends Bot {
     private ArrayList<Coordinate> plan;
-    private int planIndex;
 
-    public Bot1(ShipMap shipMap) {
-        super(shipMap);
-        this.firstRun = true;
-        this.planIndex = 1;
+    public Bot2(ShipMap shipMap) {
+        super((shipMap));
     }
 
     public boolean makeAMove() {
-        if (firstRun) {
-            if (!createPlan())
-                return false;
-            firstRun = false;
-        }
+        if (!createPlan())
+            return false;
         Coordinate curr = shipMap.getBotLocation();
-        Coordinate nextMove = plan.get(planIndex);
-        planIndex++;
+        Coordinate nextMove = plan.get(1);
         if (nextMove.equals(curr.getAbove())) shipMap.moveBotUp();
         else if (nextMove.equals(curr.getBelow())) shipMap.moveBotDown();
         else if (nextMove.equals(curr.getLeft())) shipMap.moveBotLeft();

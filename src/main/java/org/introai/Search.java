@@ -28,7 +28,7 @@ public class Search {
 
         while (!fringe.isEmpty()) {
             Coordinate curr = fringe.poll().getCoordinate();
-            if (curr == goal) {
+            if (curr.equals(goal)) {
                 found = true;
                 break;
             }

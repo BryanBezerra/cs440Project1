@@ -7,7 +7,7 @@ import java.util.Collections;
 import java.util.HashMap;
 
 public class SearchResult {
-    private final Coordinate[] path;
+    private final ArrayList<Coordinate> path;
     private final Coordinate start;
     private final Coordinate end;
     private final int distanceFromStart;
@@ -20,7 +20,7 @@ public class SearchResult {
         this.path = constructPath(end, parents);
     }
 
-    private Coordinate[] constructPath(Coordinate end, HashMap<Coordinate, Coordinate> parents) {
+    private ArrayList<Coordinate> constructPath(Coordinate end, HashMap<Coordinate, Coordinate> parents) {
         ArrayList<Coordinate> pathList = new ArrayList<>();
         Coordinate curr = end;
         while (curr != null) {
@@ -29,10 +29,10 @@ public class SearchResult {
         }
 
         Collections.reverse(pathList);
-        return (Coordinate[]) pathList.toArray();
+        return pathList;
     }
 
-    public Coordinate[] getPath() {
+    public ArrayList<Coordinate> getPath() {
         return path;
     }
 
