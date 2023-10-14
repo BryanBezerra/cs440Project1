@@ -1,9 +1,6 @@
 package org.introai;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class ShipMap {
