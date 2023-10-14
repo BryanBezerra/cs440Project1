@@ -17,6 +17,11 @@ public class Bot1 extends Bot {
         this.planIndex = 1;
     }
 
+    /**
+     * The bot moves to an open neighbor. It only alters its plan on the first turn.
+     *
+     * @return true if there is still an open path to the goal, otherwise false
+     */
     public boolean makeAMove() {
         if (firstRun) {
             if (!createPlan())
@@ -34,6 +39,11 @@ public class Bot1 extends Bot {
         return true;
     }
 
+    /**
+     * The bot creates a plan to get to the goal in the fewest possible moves.
+     *
+     * @return true if a route is possible, otherwise false
+     */
     private boolean createPlan() {
         Coordinate botStartLocation = shipMap.getBotLocation();
         Coordinate goalLocation = shipMap.getGoalLocation();

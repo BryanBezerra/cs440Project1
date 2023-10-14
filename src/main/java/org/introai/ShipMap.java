@@ -8,13 +8,21 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class ShipMap {
     private final int size;
+    private double flammability;
     private Coordinate goalLocation;
     private Coordinate botLocation;
     private final HashSet<Coordinate> openCells;
     private final HashSet<Coordinate> fireCells;
 
-    public ShipMap(int size) {
+    /**
+     * Creates a new ship.
+     *
+     * @param size the height and width of the ship
+     * @param flammability how fast the fire spreads on the ship (0.0 - 1.0)
+     */
+    public ShipMap(int size, double flammability) {
         this.size = Math.abs(size);
+        this.flammability = flammability;
         this.openCells = new ShipCreator(size).generateShip();
         this.fireCells = new HashSet<>();
         int sizeOpenCells = this.openCells.size();
@@ -40,6 +48,26 @@ public class ShipMap {
             i++;
         }
         igniteCell(cellToBurn);
+    }
+
+    /**
+     * Creates a ship with preset values. Used for making copies and testing.
+     *
+     * @param size the size of the ship
+     * @param flammability how fast the fire spreads
+     * @param goalLocation the location of the goal
+     * @param botLocation the location of the bot
+     * @param openCells the set of open cells on the ship
+     * @param fireCells the set of ignited cells
+     */
+    private ShipMap(int size, double flammability, Coordinate goalLocation, Coordinate botLocation,
+                    HashSet<Coordinate> openCells, HashSet<Coordinate> fireCells) {
+        this.size = size;
+        this.flammability = flammability;
+        this.goalLocation = goalLocation;
+        this.botLocation = botLocation;
+        this.openCells = openCells;
+        this.fireCells = fireCells;
     }
 
     /**
@@ -126,10 +154,20 @@ public class ShipMap {
         else throw new RuntimeException("Bot tried to move to an invalid cell");
     }
 
+    /**
+     * The open cells on the ship.
+     *
+     * @return a copy of the set of open cells
+     */
     public HashSet<Coordinate> getOpenCells() {
         return (HashSet<Coordinate>) openCells.clone();
     }
 
+    /**
+     * The ignited cells on the ship.
+     *
+     * @return a copy of the ignited cells on the ship
+     */
     public HashSet<Coordinate> getFireCells() {
         return (HashSet<Coordinate>) fireCells.clone();
     }
@@ -144,12 +182,41 @@ public class ShipMap {
         return fireCells.contains(cell);
     }
 
+    /**
+     * The Coordinate of the goal on the ship.
+     * @return the Coordinate of the goal on the ship
+     */
     public Coordinate getGoalLocation() {
         return goalLocation.copy();
     }
 
+    /**
+     * The location of the bot.
+     * @return the location of the bot
+     */
     public Coordinate getBotLocation() {
         return botLocation.copy();
+    }
+
+    /**
+     * The ship's flammability (q).
+     * @returnhe the ship's flammability (q)
+     */
+    public double getFlammability() {
+        return flammability;
+    }
+
+    /**
+     * Creates a new ship with the same state as the current ship.
+     *
+     * @return a new ship with the same state as the current ship
+     */
+    public ShipMap copyState() {
+        HashSet<Coordinate> newOpenCells = getOpenCells();
+        HashSet<Coordinate> newFireCells = getFireCells();
+
+        return new ShipMap(size, flammability, goalLocation.copy(),
+                botLocation.copy(), newOpenCells, newFireCells);
     }
 
     @Override
@@ -186,13 +253,5 @@ public class ShipMap {
         result.append("  ");
         result.append("¯ ".repeat(this.size));
         return result.toString();
-    }
-
-    public static void main(String[] args) {
-        ShipMap a = new ShipMap(15);
-        System.out.println(a);
-        System.out.println("Bot: " + a.botLocation);
-        System.out.println("Goal: " + a.goalLocation);
-        System.out.println("Initial fire: " + a.fireCells);
     }
 }

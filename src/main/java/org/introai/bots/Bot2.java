@@ -10,9 +10,14 @@ public class Bot2 extends Bot {
     private ArrayList<Coordinate> plan;
 
     public Bot2(ShipMap shipMap) {
-        super((shipMap));
+        super(shipMap);
     }
 
+    /**
+     * The bot moves to an open neighbor. It creates a new plan before each move.
+     *
+     * @return true if there is still an open path to the goal, otherwise false
+     */
     public boolean makeAMove() {
         if (!createPlan())
             return false;
@@ -26,6 +31,11 @@ public class Bot2 extends Bot {
         return true;
     }
 
+    /**
+     * The bot creates a plan to get to the goal in the fewest possible moves.
+     *
+     * @return true if a route is possible, otherwise false
+     */
     private boolean createPlan() {
         Coordinate botStartLocation = shipMap.getBotLocation();
         Coordinate goalLocation = shipMap.getGoalLocation();

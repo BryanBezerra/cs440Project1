@@ -20,6 +20,12 @@ public class SearchResult {
         this.path = constructPath(end, parents);
     }
 
+    /**
+     * Uses the map of parents and children to reconstruct the path.
+     * @param end where the path ends
+     * @param parents a map of each node's parent
+     * @return
+     */
     private ArrayList<Coordinate> constructPath(Coordinate end, HashMap<Coordinate, Coordinate> parents) {
         ArrayList<Coordinate> pathList = new ArrayList<>();
         Coordinate curr = end;

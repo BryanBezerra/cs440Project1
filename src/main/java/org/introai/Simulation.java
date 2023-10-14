@@ -1,11 +1,7 @@
 package org.introai;
 
-import org.introai.bots.Bot;
-import org.introai.bots.Bot1;
-import org.introai.bots.Bot2;
-import org.introai.bots.Bot3;
+import org.introai.bots.*;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -18,8 +14,14 @@ public class Simulation {
     private final double fireChance3;
     private final double fireChance4;
 
+    /**
+     * Creates a new simulation in a new ship.
+     *
+     * @param shipSize the size of the ship to be simulated
+     * @param shipFlammability the ship's flammability (q)
+     */
     public Simulation(int shipSize, double shipFlammability) {
-        this.shipMap = new ShipMap(shipSize);
+        this.shipMap = new ShipMap(shipSize, shipFlammability);
         this.catchingFire = new HashSet<>();
         this.fireChance1 = 1 - Math.pow(1 - shipFlammability, 1);
         this.fireChance2 = 1 - Math.pow(1 - shipFlammability, 2);
@@ -27,7 +29,25 @@ public class Simulation {
         this.fireChance4 = 1 - Math.pow(1 - shipFlammability, 4);
     }
 
-    private void simulateFireSpread() {
+    /**
+     * Creates a new simulation on an existing ship.
+     *
+     * @param shipMap the ship to be simulated
+     */
+    public Simulation(ShipMap shipMap) {
+        this.shipMap = shipMap;
+        double shipFlammability = shipMap.getFlammability();
+        this.catchingFire = new HashSet<>();
+        this.fireChance1 = 1 - Math.pow(1 - shipFlammability, 1);
+        this.fireChance2 = 1 - Math.pow(1 - shipFlammability, 2);
+        this.fireChance3 = 1 - Math.pow(1 - shipFlammability, 3);
+        this.fireChance4 = 1 - Math.pow(1 - shipFlammability, 4);
+    }
+
+    /**
+     * Simulates how the fire will spread, then ignites those cells on the ship.
+     */
+    public void simulateFireSpread() {
         HashSet<Coordinate> openCells = shipMap.getOpenCells();
         for (Coordinate cell : openCells) {
             if (willCatchFire(cell)) catchingFire.add(cell);
@@ -37,6 +57,26 @@ public class Simulation {
             shipMap.igniteCell(cell);
         }
         catchingFire.clear();
+    }
+
+    /**
+     * Predicts how the fire will spread via simulation.
+     *
+     * @param turnsIntoFuture how many turns into the future are being predicted
+     * @return a set of cells that are predicted to catch fire in the next turnsIntoFuture turns
+     */
+    public HashSet<Coordinate> firePrediction(int turnsIntoFuture) {
+        HashSet<Coordinate> fakeOpenCells = shipMap.getOpenCells();
+        HashSet<Coordinate> fakeCatchingFire = new HashSet<>();
+
+        for (int i = 0; i < turnsIntoFuture; i++) {
+            for (Coordinate cell : fakeOpenCells)
+                if (willCatchFire(cell)) fakeCatchingFire.add(cell);
+            for (Coordinate cell : fakeCatchingFire)
+                fakeOpenCells.remove(cell);
+        }
+
+        return fakeCatchingFire;
     }
 
     /**
@@ -97,7 +137,7 @@ public class Simulation {
     public static void main(String[] args) {
         Simulation test = new Simulation(10, 0.45);
         System.out.println(test.shipMap);
-        boolean result = test.run(new Bot3(test.getShipMap()));
+        boolean result = test.run(new Bot4(test.getShipMap()));
         System.out.println(result);
         System.out.println(test.shipMap);
     }
