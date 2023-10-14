@@ -45,8 +45,8 @@ public class Bot4 extends Bot {
      * @return true if a route is possible, otherwise false
      */
     private boolean createPlan() {
-        final int NUMBER_FIRE_SIMS = 10;
-        final int TURNS_INTO_FUTURE = 10;
+        final int NUMBER_FIRE_SIMS = 20;
+        final int TURNS_INTO_FUTURE = 20;
         Coordinate botStartLocation = shipMap.getBotLocation();
         Coordinate goalLocation = shipMap.getGoalLocation();
         HashMap<Coordinate, Double> dangerousCells =
@@ -72,12 +72,11 @@ public class Bot4 extends Bot {
      */
     private HashMap<Coordinate, Double> generateFireProbabilities(int numberSimulations, int turnsIntoFuture) {
         HashMap<Coordinate, Double> probabilities = new HashMap<>();
-
         for (int i = 0; i < numberSimulations; i++) {
             ShipMap shipCopy = shipMap.copyState();
             Simulation fireSim = new Simulation(shipCopy);
-            HashSet<Coordinate> caughtFire = fireSim.firePrediction(turnsIntoFuture);
-            for (Coordinate cell : caughtFire) {
+            HashSet<Coordinate> ignited = fireSim.firePrediction(turnsIntoFuture);
+            for (Coordinate cell : ignited) {
                 if (probabilities.containsKey(cell)) {
                     probabilities.put(cell, probabilities.get(cell) + 1.0);
                 } else {

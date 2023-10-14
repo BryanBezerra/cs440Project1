@@ -137,7 +137,6 @@ public class Search {
                     int priority = tempDistance + manhattanDistance(neighbor, goal);
                     if (dangerousCells.containsKey(neighbor)) {
                         int additionalPriority = (int) (dangerousCells.get(neighbor) * DANGER_PENALTY);
-//                        System.out.println(neighbor + " is dangerous. Adding penalty: " + additionalPriority);
                         priority += additionalPriority;
                     }
                     fringe.add(new PriorityCoordinate(neighbor, priority));
